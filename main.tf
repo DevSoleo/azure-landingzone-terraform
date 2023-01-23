@@ -1,7 +1,7 @@
 # Modules (deployment)
 module "resource_group_1" {
   source        = "./modules/resource_group"
-  name          = "testrg1"
+  name          = "testrg4"
 }
 
 module "virtual_network_1" {
@@ -22,6 +22,25 @@ module "virtual_network_2" {
   name     = "myvnetaizeo"
 
   rg_name       = module.resource_group_1.name
+}
+
+module "nsg_1" {
+  source        = "./modules/networking/nsg"
+
+  name    = "nsga"
+  rg_name = module.resource_group_1.name
+}
+
+module "nsg_rule_1" {
+  source        = "./modules/networking/security_rule"
+
+  name    = "rulea"
+  rg_name = module.resource_group_1.name
+  nsg_name = module.nsg_1.name
+
+  priority = 100
+  direction = "Outbound"
+  access = "Allow"
 }
 
 module "subnet_1" {
@@ -46,7 +65,6 @@ module "nic_1" {
 
   rg_name      = module.resource_group_1.name
   subnet_id    = module.subnet_1.id
-  
 }
 
 module "vm_1" {
