@@ -1,6 +1,6 @@
 resource "azurerm_virtual_network" "example" {
   name                = var.vnet_name
-  location            = "eastus"
+  location            = var.location
   resource_group_name = var.rg_name
   address_space       = ["10.0.0.0/16"]
 
@@ -17,6 +17,7 @@ resource "azurerm_virtual_network" "example" {
     security_group = azurerm_network_security_group.example.id
   }
   */
+
   tags = {
     terraform = "true"
   }
