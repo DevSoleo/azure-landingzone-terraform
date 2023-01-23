@@ -1,6 +1,6 @@
 
 resource "azurerm_virtual_machine" "main" {
-  name                  = "compute-vm"
+  name                  = var.name
   location              = var.location
   resource_group_name   = var.rg_name
   network_interface_ids = [ var.nic_id ]

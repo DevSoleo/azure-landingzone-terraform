@@ -7,3 +7,8 @@ resource "azurerm_network_security_group" "nsg" {
     terraform = "true"
   }
 }
+
+resource "azurerm_network_interface_security_group_association" "nsg_assoc" {
+  network_interface_id      = var.nic_id
+  network_security_group_id = azurerm_network_security_group.nsg.id
+}
