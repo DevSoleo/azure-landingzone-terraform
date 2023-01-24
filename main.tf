@@ -12,16 +12,18 @@ module "virtual_network_1" {
   name     = "vnet-01"
 
   rg_name       = module.resource_group_1.name
+  address_space = ["10.0.0.0/16"]
 }
 
-module "virtual_network_2" {
-  source        = "./modules/networking/virtual_network"
+module "dns_servers_1" {
+  source = "./modules/networking/virtual_network/dns_server"
+  
+  depends_on = [
+    module.virtual_network_1
+  ]
 
-  depends_on    = [module.resource_group_1]
-
-  name     = "vnet-02"
-
-  rg_name       = module.resource_group_1.name
+  vnet_id = module.virtual_network_1.id
+  servers = [ "10.7.7.2", "10.7.7.7", "10.7.7.1" ]
 }
 
 module "subnet_1" {
